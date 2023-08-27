@@ -19,13 +19,13 @@ func main() {
 		panic(err)
 	}
 
-	lexer := lexer.NewLexer(file)
+	l := lexer.NewLexer(file)
 	for {
-		pos, tok, lit := lexer.Lex()
-		if tok == EOF {
+		pos, tok, lit := l.Lex()
+		if tok == lexer.EOF {
 			break
 		}
 
-		fmt.Printf("%d:%d\t%s\t%s\n", pos.line, pos.column, tok, lit)
+		fmt.Printf("%d:%d:\t%s\t%s\n", pos.line, pos.column, tok, lit)
 	}
 }
