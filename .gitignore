@@ -1,0 +1,29 @@
+# Binaries 
+*/bin/
+*.exe
+*.dll
+
+# Built files
+*/pkg/
+*/out/
+*.o
+*.a
+
+# Logs
+*.log
+
+# Dependency directories 
+*/deps/
+*/node_modules/
+
+# Editor files
+*.swp
+.vscode/
+
+# OS generated
+Thumbs.db
+.DS_Store
+
+# Ignore pdf/html build output
+docs/*.pdf
+docs/*.html
