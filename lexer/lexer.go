@@ -19,7 +19,10 @@ const (
 	ILLEGAL
 	IDENT
 	INT
-	SEMI // ;
+	SEMI  // ;
+	COLON // :
+	COMMA // ,
+	DOT   // .
 
 	// Infix ops
 	ADD // +
@@ -37,6 +40,9 @@ var tokens = []string{
 	IDENT:   "IDENT",
 	INT:     "INT",
 	SEMI:    ";",
+	COLON:   ":",
+	COMMA:   ",",
+	DOT:     ".",
 
 	// Infix ops
 	ADD: "+",
@@ -52,8 +58,8 @@ func (t Token) String() string {
 }
 
 type Position struct {
-	line   int
-	column int
+	Line   int
+	Column int
 }
 
 type Lexer struct {
@@ -63,7 +69,7 @@ type Lexer struct {
 
 func NewLexer(reader io.Reader) *Lexer {
 	return &Lexer{
-		pos:    Position{line: 1, column: 0},
+		pos:    Position{Line: 1, Column: 0},
 		reader: bufio.NewReader(reader),
 	}
 }
@@ -83,14 +89,20 @@ func (l *Lexer) Lex() (Position, Token, string) {
 			// should just return the raw error to the user
 			panic(err)
 		}
-		// update the column to the position of the newly read in rune
-		l.pos.column++
+		// update the Column to the position of the newly read in rune
+		l.pos.Column++
 
 		switch r {
 		case '\n':
 			l.resetPosition()
 		case ';':
 			return l.pos, SEMI, ";"
+		case ':':
+			return l.pos, COLON, ":"
+		case ',':
+			return l.pos, COMMA, ","
+		case '.':
+			return l.pos, DOT, "."
 		case '+':
 			return l.pos, ADD, "+"
 		case '-':
@@ -124,8 +136,8 @@ func (l *Lexer) Lex() (Position, Token, string) {
 }
 
 func (l *Lexer) resetPosition() {
-	l.pos.line++
-	l.pos.column = 0
+	l.pos.Line++
+	l.pos.Column = 0
 }
 
 func (l *Lexer) backup() {
@@ -133,7 +145,7 @@ func (l *Lexer) backup() {
 		panic(err)
 	}
 
-	l.pos.column--
+	l.pos.Column--
 }
 
 // lexInt scans the input until the end of an integer and then returns the
@@ -149,7 +161,7 @@ func (l *Lexer) lexInt() string {
 			}
 		}
 
-		l.pos.column++
+		l.pos.Column++
 		if unicode.IsDigit(r) {
 			lit = lit + string(r)
 		} else {
@@ -173,7 +185,7 @@ func (l *Lexer) lexIdent() string {
 			}
 		}
 
-		l.pos.column++
+		l.pos.Column++
 		if unicode.IsLetter(r) {
 			lit = lit + string(r)
 		} else {

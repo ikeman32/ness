@@ -26,6 +26,6 @@ func main() {
 			break
 		}
 
-		fmt.Printf("%d:%d:\t%s\t%s\n", pos.line, pos.column, tok, lit)
+		fmt.Printf("%d:%d:\t%s\t%s\n", pos.Line, pos.Column, tok, lit)
 	}
 }
