@@ -1,6 +1,9 @@
-// Copyright (c) 2023 duke
-//
+// Copyright (c) 2023 David H Isakson II
+// 
 // This software is released under the MIT License.
 // https://opensource.org/licenses/MIT
 
-package main
+a = 5;
+b = a + 6;
+c + 123;
+5+12;

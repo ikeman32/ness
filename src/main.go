@@ -3,20 +3,23 @@
 // This software is released under the MIT License.
 // https://opensource.org/licenses/MIT
 
-package ness
+package main
 
 import (
 	"fmt"
 	"os"
+
+	"github.com/ikeman32/ness/lexer"
 )
 
 func main() {
+
 	file, err := os.Open("input.test")
 	if err != nil {
 		panic(err)
 	}
 
-	lexer := NewLexer(file)
+	lexer := lexer.NewLexer(file)
 	for {
 		pos, tok, lit := lexer.Lex()
 		if tok == EOF {
