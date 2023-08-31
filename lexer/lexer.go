@@ -109,12 +109,17 @@ func (l *Lexer) NextToken() token.Token {
 			tok.Type = token.INT
 			tok.Literal = l.readNumber()
 			return tok
+			// This code does not work
+		} else if l.ch == 0 {
+			tok.Type = token.EOF
+			tok.Literal = ""
 		} else {
 			tok = newToken(token.ILLEGAL, l.ch)
 		}
 	}
 
 	l.readChar()
+
 	return tok
 }
 
