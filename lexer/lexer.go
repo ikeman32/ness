@@ -21,12 +21,14 @@ func (l *Lexer) NextToken() token.Token {
 
 	switch l.ch {
 	case '=':
+		// Check for equality token
 		if l.peekChar() == '=' {
 			ch := l.ch
 			l.readChar()
 			literal := string(ch) + string(l.ch)
 			tok = token.Token{Type: token.EQ, Literal: literal}
 		} else {
+			// Get assignment token
 			tok = newToken(token.ASSIGN, l.ch)
 		}
 	case '+':
@@ -34,21 +36,25 @@ func (l *Lexer) NextToken() token.Token {
 	case '-':
 		tok = newToken(token.MINUS, l.ch)
 	case '!':
+		// Check for not equals token
 		if l.peekChar() == '=' {
 			ch := l.ch
 			l.readChar()
 			literal := string(ch) + string(l.ch)
 			tok = token.Token{Type: token.NOT_EQ, Literal: literal}
 		} else {
+			// Get bang token
 			tok = newToken(token.BANG, l.ch)
 		}
 	case '/':
+		// Check for comment token
 		if l.peekChar() == '/' {
 			ch := l.ch
 			l.readChar()
 			literal := string(ch) + string(l.ch)
 			tok = token.Token{Type: token.COMMENT, Literal: literal}
 			l.skipComment()
+			// Check of multiline comment token
 		} else if l.peekChar() == '*' {
 			ch := l.ch
 			l.readChar()
@@ -56,6 +62,7 @@ func (l *Lexer) NextToken() token.Token {
 			tok = token.Token{Type: token.MULTILINE, Literal: literal}
 			l.inComment()
 		} else {
+			// Get slash token
 			tok = newToken(token.SLASH, l.ch)
 		}
 	case '*':
@@ -64,6 +71,8 @@ func (l *Lexer) NextToken() token.Token {
 		tok = newToken(token.LT, l.ch)
 	case '>':
 		tok = newToken(token.GT, l.ch)
+	case '.':
+		tok = newToken(token.DOT, l.ch)
 	case ';':
 		tok = newToken(token.SEMI, l.ch)
 	case ':':
@@ -79,6 +88,9 @@ func (l *Lexer) NextToken() token.Token {
 	case ')':
 		tok = newToken(token.RPAREN, l.ch)
 	case '"':
+		tok.Type = token.STRING
+		tok.Literal = l.readString()
+	case '\'':
 		tok.Type = token.STRING
 		tok.Literal = l.readString()
 	case '[':
