@@ -8,8 +8,10 @@ package token
 type TokenType string
 
 const (
-	ILLEGAL = "ILLEGAL"
-	EOF     = "EOF"
+	ILLEGAL   = "ILLEGAL"
+	EOF       = "EOF"
+	COMMENT   = "COMMENT"
+	MULTILINE = "MULTILINE"
 
 	// Identifiers and literals
 	IDENT  = "IDENT"  // add, foo, x, y ...
